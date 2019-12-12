@@ -1,0 +1,239 @@
+﻿@model SoftwareEngineering.Models.EnviaMsg
+@using SoftwareEngineering.Models;
+@using SoftwareEngineering.Business;
+
+@{
+    /**/
+
+    /**/
+    Sala sala = new Sala();
+    List<EnviaMsg> msg = new List<EnviaMsg>();
+    List<string> usuarios = new List<string>();
+
+    try
+    {
+        ViewBag.Title = "Home";
+        DAL obj = new DAL();
+        msg = obj.MensagensSala(Model.IdSala);
+
+        sala = obj.RetornaSala(Model.IdSala);
+
+        usuarios = obj.UsuariosSala(Model.IdSala);
+    }
+    catch (Exception)
+    {
+        <script>
+            Alert("Sua sessão expirou!");
+            window.location.href = "/Login/Entrar/";
+        </script>
+
+
+    }
+
+    if (ViewBag.Action == "Excluir")
+    {
+        <script>
+            window.location.href = "/Principal/Index/";
+        </script>
+    }
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+
+
+
+
+    try
+    {
+        <div style="white-space:nowrap; margin-right:unset">
+            @if (Session["usuario"].ToString() == sala.Usuario)
+            {
+
+                <a href="~/principal/Home?idSala=@Model.IdSala&excluir=@Session["usuario"].ToString()" style="font-size:20px; color:red "><bold>Excluir Sala</bold></a>
+            }
+            &nbsp; &nbsp;
+            <a href="~/principal/Home?idSala=@Model.IdSala&sair=@Session["usuario"].ToString()" style="font-size:15px; color:white; ">Sair da sala</a>
+        </div>
+    }
+    catch (Exception)
+    {
+        <script>
+            Alert("Sua sessão expirou!");
+            window.location.href = "/Login/Entrar/";
+        </script>
+
+    }
+
+    //Gambi da Gambi :(
+    int a = 650;
+    if (msg.Count > 1 && msg.Count < 4)
+    {
+        a += msg.Count * 120;
+    }
+    else if(msg.Count > 4)
+    {
+        a =  1000;
+    }
+
+    string aux = a.ToString() + "px";
+
+
+    <div class="panel-Home" style="margin-top:@aux">
+        @if (string.IsNullOrEmpty(sala.Image))
+        {
+            <img src="../../images/sem-imagem.jpg" alt="" height="200" width="200" style="border-radius:50%">
+        }
+        else
+        {
+            <img src="../../images/@sala.Image" alt="" height="200" width="200" style="border-radius:50%">
+        }
+
+        <div style="margin-top:-150px; margin-bottom:100px; margin-left:200px">
+            <h1 class="text-center" style="font-size:50pt; color:white;">@sala.Nome</h1>
+            <h3 class="text-center" style="font-size:15pt; color:white;">@sala.Descricao</h3>
+        </div>
+        <p style="font-size:15px; color:white; margin-left: 40px;">Esse evento está marcado para: @sala.DataJogo</p>
+        <p style="font-size:15px; color:white; margin-left: 40px;">No local: @sala.Local</p>
+        <p style="font-size:15px; color:white; margin-left: 40px;">Administrado por: @sala.Usuario</p>
+        <br />
+        @try
+        {
+            <p style="font-size:20px; color:white;" class="text-center">Jogar com amigos é muito mais divertido!<br /> Convide-os para jogar com voce! O código da sala é  #EAF@@@Model.IdSala.ToString()</p>
+        }
+        catch (Exception)
+        {
+        }
+
+        <br /><br />
+
+        <p style="font-size:15px; color:white; padding:15px">Veja quem está aqui com voce!</p>
+
+
+        @{
+            try
+            {
+                if (Session["usuario"].ToString().ToUpper() == sala.Usuario.ToUpper())
+                {
+                    foreach (var item in usuarios)
+                    {
+                        <div class="float-left" style="padding:10px;">
+                            <a href="~/Principal/Perfil?usuario=@item.ToString()" style="font-size:25px; color:white">@item.ToString()</a>&nbsp; &nbsp;
+                            @if (Session["usuario"].ToString().ToUpper() != item.ToString().ToUpper())
+                            {
+                                <a href="~/principal/Home?idSala=@Model.IdSala&banir=@item.ToString()" style="color:red">Banir</a>
+                            }
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    foreach (var item in usuarios)
+                    {
+                        <div class="float-left" style="padding:10px; color:white" color:white; margin-bottom:10px">
+                            <a href="~/Principal/Perfil?usuario=@item.ToString()" style="font-size:25px; color:white">@item.ToString()</a>&nbsp;&nbsp;
+                        </div>
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                <script>
+                    Alert("Sua sessão expirou!");
+                    window.location.href = "/Login/Entrar/";
+                </script>
+            }
+
+        }
+
+
+
+    </div>
+    <div class="row" style="margin:2px; margin-top:50px;">
+        <div class="col-md-8 col-md-offset-2" style="width:900px;">
+
+            @*<div class="home-content" style="padding-top: 50px; ">*@
+
+            <div class="home-content" style="font-size:50px; margin-top:15px; color:white; white-space: nowrap; text-align:center">
+                Bate-Papo
+                <p style="text-align:right; color:white; font-size:15px">Faça amizades, seja educado!</p>
+            </div>
+
+
+            <div id="chat" style="overflow:auto; height: auto; max-height:600px;">
+
+                @if (msg.Count == 0)
+                {
+                    <div class="col-md-8 col-md-offset-2" style="padding:15px;">
+                        <div style="font-size:25px;  color:white; text-align:center;  ">
+                            Sua sala não possui nenhuma mensagem ainda! <br /> Envie uma para interagir com a galera.
+
+
+                        </div>
+
+                    </div>
+                }
+                <script>
+                    var myVar = setInterval(myTimer, 1000);
+                    function myTimer() {
+                        document.getElementById("chat").onload();
+                    }
+                </script>
+
+                @foreach (var item in msg)
+                {
+
+
+                    <div class="col-md-8 col-md-offset-2" style="padding:15px; width:400px;">
+                        <div class="panel-msg">
+                            @item.Mensagem.ToString()
+                        </div>
+                        <div style="font-size:15px; text-align:center; color:white; white-space: nowrap; background-color:rgba(0,0,0,0.7); border-radius:200px; margin-right:-90px ">
+                            Enviado por: @item.IdUsuario.ToString() às @item.DataMensagem
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <br />
+            <br />
+            <textarea class="center-block" maxlength="200" id="Mensagem" name="Mensagem" placeholder="Digite sua mensagem" style="background-color:lightslategray; font-size: 15px; width: 900pt; height: 150px; padding:15px; border-radius:25px;"></textarea>
+
+            <br />
+            <div>
+                <input class="center-block" type="submit" value="Enviar" style="background-color:lightslategray; color:white; border-radius:50px; padding:15px; text-align:center; width:120px; font-size:15px;" />
+
+            </div>
+
+            <br />
+            <br />
+
+
+            @*</div>*@
+
+        </div>
+
+    </div>
+
+    <a href="~/principal/Index/">
+        <div class=" text-black" style="font-size:20px; color:white; padding:10px">
+            Voltar
+        </div>
+    </a>
+
+
+
+
+
+}
+
+
+
+
+

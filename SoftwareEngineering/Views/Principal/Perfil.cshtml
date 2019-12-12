@@ -1,0 +1,140 @@
+﻿@model SoftwareEngineering.Models.Usuario
+@using SoftwareEngineering.Models;
+@using SoftwareEngineering.Business;
+
+@{
+
+    ViewBag.Title = Model.Nome;
+
+}
+
+
+@using (Html.BeginForm("Perfil", "Principal", null, FormMethod.Post, new
+{
+    enctype = "multipart/form-data"
+}))
+{
+    @Html.AntiForgeryToken()
+
+    <section class="panel b-blue" id="1">
+        <article class="panel__wrapper">
+            <div class="panel__content">
+                <div class="container">
+
+
+
+                    @{
+                        try
+                        {
+                            <div style="white-space:nowrap; margin-right:unset">
+                                @if (Session["usuario"].ToString().ToUpper() == Model.Nome.ToUpper())
+                                {
+
+
+                                }
+                                &nbsp; &nbsp;
+
+                            </div>
+                        }
+                        catch (Exception)
+                        {
+                            <script>
+                                Alert("Sua sessão expirou!");
+                                window.location.href = "/Login/Entrar/";
+                            </script>
+
+                        }
+                    }
+
+
+                <div class="panel-Home">
+
+                    @{
+                        try
+                        {
+                            if (Model.Nome.ToUpper() == Session["usuario"].ToString().ToUpper())
+                            {
+                                <div style="margin-top:-20px; margin-left:-20px">
+                                    <a style="color:white; font-size:12pt" href="~/principal/AlterarPerfil?usuario=@Session["usuario"].ToString()">Editar perfil</a>
+                                </div>
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            <script>
+                                Alert("Sua sessão expirou!");
+                                window.location.href = "/Login/Entrar/";
+                            </script>
+                        }
+
+                    }
+
+                    @if (string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="../../images/sem-imagem.jpg" alt="" height="200" width="200" style="border-radius:50%">
+                    }
+                    else
+                    {
+                        <img src="../../images/@Model.Image" alt="" height="200" width="200" style="border-radius:50%">
+                    }
+
+
+                    <div style="margin-top:-150px; margin-bottom:100px">
+                        <h1 class="text-center" style="font-size:50pt; color:white; margin-left:120px">@Model.Nome</h1>
+
+                    </div>
+
+                    <br />
+
+
+                    <br /><br />
+                    <p style="color:white; font-size:30pt; margin-top:-50px">Sobre @Model.Nome</p>
+                    <br />
+
+                    @if (string.IsNullOrEmpty(Model.Sobre))
+                    {
+                        <h1 class="text-center" style="font-size:15pt; color:white">Esse usuário ainda não possui uma descrição</h1>
+                    }
+                    else
+                    {
+                    <h1 class="text-center" style="font-size:15pt; color:white">@Model.Sobre</h1>
+                    }
+
+
+
+
+
+
+
+                </div>
+                    <div class="row" style="margin:2px; margin-top:50px;">
+                        <div class="col-md-8 col-md-offset-2" style="width:900px;">
+
+
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+                <input type='button' value='Voltar' onclick='history.go(-1)' class=" text-black" style="font-size:20px; color:white; padding:10px; background-color:transparent" />
+                   
+                
+            </div>
+
+
+        </article>
+    </section>
+
+}

@@ -1,0 +1,123 @@
+﻿@model SoftwareEngineering.Models.Usuario
+
+@{
+    ViewBag.Title = "Novo";
+}
+
+@using (Html.BeginForm("Novo", "Login", null, FormMethod.Post, new
+{
+    enctype = "multipart/form-data"
+}))
+{
+    @Html.AntiForgeryToken()
+    <section class="panel b-blue" id="1">
+        <article class="panel__wrapper">
+            <div class="panel__content">
+                <div class="container" style="margin-top:250px">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="home-content">
+
+                                <form class="login100-form validate-form">
+                                    <span class="login100-form-logo">
+                                        <i class="zmdi zmdi-account-add"></i>
+                                    </span>
+
+
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "input100", placeholder = "Usuario" } })
+                                        <span class="focus-input100" data-placeholder="&#xf207;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                                        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "input100", placeholder = "Senha" } })
+                                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                                        @Html.EditorFor(model => model.ConfirmaSenha, new { htmlAttributes = new { @class = "input100", placeholder = "Confirmar Senha" } })
+                                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ConfirmaSenha, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter Email">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input100", placeholder = "E-mail" } })
+                                        <span class="focus-input100" data-placeholder="&#x40;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter Celular">
+                                        @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "input100", placeholder = "Celular" } })
+                                        <span class="focus-input100" data-placeholder="&#xf2b6;"></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger input100" })
+
+
+                                    <div class="contact100-form-checkbox">
+
+                                        <div class="col-md-10">
+                                            <div class="checkbox">
+                                                @Html.EditorFor(model => model.RecebeNotificacao)
+
+                                                <h3 class="text-white">Deseja receber notificações de eventos e promoções por e-mail?</h3>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter image">
+                                        <input type="file" name="upload" />
+
+                                    </div>
+
+                                    @try
+                                    {
+                                        if (Model.Nome != null && Model.Senha != null && Model.Email != null)
+                                        {
+                                            <script>
+                                                alert("Cadastro efetuado com sucesso");
+                                                window.location.href = "/Login/Entrar";
+                                            </script>
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+
+
+                                    <div class="container-login100-form-btn">
+                                        <button class="login100-form-btn" type="submit">
+                                            Cadastrar
+                                        </button>
+                                    </div>
+                                    <br />
+
+                                    <label class="text-white white text-left">
+                                        <a class="text-white" href="Entrar">
+                                            Voltar
+                                        </a>
+
+                                    </label>
+                                    <br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+}
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

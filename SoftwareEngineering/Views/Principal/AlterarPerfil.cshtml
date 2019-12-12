@@ -1,0 +1,128 @@
+﻿@model SoftwareEngineering.Models.Usuario
+
+@{
+    ViewBag.Title = "AlterarPerfil";
+
+    try
+    {
+        if (Model.Nome.ToUpper() != Session["usuario"].ToString().ToUpper())
+        {
+            <script>
+                alert("Sua sessão expirou!");
+                window.location.href = "/Login/Entrar/";
+            </script>
+
+        }
+    }
+    catch (Exception)
+    {
+        <script>
+            alert("Sua sessão expirou!");
+            window.location.href = "/Login/Entrar/";
+        </script>
+    }
+}
+
+
+@using (Html.BeginForm("AlterarPerfil", "Principal", null, FormMethod.Post, new
+{
+    enctype = "multipart/form-data"
+}))
+{
+    @Html.AntiForgeryToken()
+    <section class="panel b-blue" id="1">
+        <article class="panel__wrapper">
+            <div class="panel__content">
+                <div class="container" style="margin-top:550px">
+                    <div class="row" >
+                        <div class="col-md-8 col-md-offset-2" >
+                            <div class="home-content">
+
+                                <form class="login100-form validate-form">
+                                    <p style="text-align:center; font-size:35pt; color:white">Alterar Perfil</p>
+                                    @if (string.IsNullOrEmpty(Model.Image))
+                                    {
+                                        <img src="../../images/sem-imagem.jpg" height="200" width="200" style="border-radius:50%; margin-bottom:15px; margin-left:35px" alt="" />
+
+                                    }
+                                    else
+                                    {
+                                        <img src="../../images/@Model.Image" height="200" width="200" style="border-radius:50%; margin-bottom:15px; margin-left:35px" alt="" />
+
+                                    }
+                                    <div class="wrap-input100 validate-input" data-validate="Enter image">
+                                        <input type="file" name="upload" style="color: white; font-size: 8pt">
+
+                                    </div>
+
+                                    <p style="visibility:hidden">-------------------------------------------------------------------------</p>
+
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "input100", placeholder = Model.Nome } })
+                                        <span class="focus-input100" data-placeholder="&#xf207;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100" data-validate="Enter password">
+                                        <input class="input100 text-box single-line password" data-val="true" id="Senha" name="Senha" placeholder="Senha" type="password">
+                                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                    </div>
+                                   
+
+                                    <div class="wrap-input100" data-validate="Enter password">
+                                        @Html.EditorFor(model => model.ConfirmaSenha, new { htmlAttributes = new { @class = "input100", placeholder = "Confirmar Senha" } })
+                                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ConfirmaSenha, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter Email">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input100", placeholder = Model.Email } })
+                                        <span class="focus-input100" data-placeholder="&#x40;"></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger input100" })
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter Celular">
+                                        @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "input100", placeholder = Model.Telefone } })
+                                        <span class="focus-input100" data-placeholder="&#xf2b6;"></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger input100" })
+
+                                    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "input100", style = "display:none" } })
+
+                                <div class="wrap-input100 validate-input" data-validate="Enter Sobre">
+                                   
+                                    <textarea style="background-color:lightslategray; font-size: 15px; width: 900pt; height: 150px; padding:15px; border-radius:25px;" id="Sobre" name="Sobre" placeholder="Diga algo sobre voce"></textarea>
+                                </div>
+
+
+
+
+                                    <div class="container-login100-form-btn">
+                                        <button class="login100-form-btn" type="submit">
+                                            Alterar
+                                        </button>
+                                    </div>
+
+                                    <br />
+
+                                    <label class="text-white white text-left">
+                                        <a class="text-white" href="~/principal/Index">
+                                            Voltar
+                                        </a>
+
+                                    </label>
+                                    <br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+}

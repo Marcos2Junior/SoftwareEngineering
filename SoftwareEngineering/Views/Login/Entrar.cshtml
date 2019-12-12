@@ -1,0 +1,125 @@
+﻿@model SoftwareEngineering.Models.Usuario
+
+@{
+    ViewBag.Title = "Entrar";
+}
+
+@using (Html.BeginForm("Entrar", "Login", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    
+        try
+        {
+            if (Model.Nome != null && Model.Senha != null)
+            {
+            Session["usuario"] = Model.Nome;
+            Session.Timeout = 120;
+            
+                <script>
+
+                    window.location.href = "/Principal/Index/";
+                </script>
+            }
+        }
+        catch (Exception)
+        {
+        }
+    
+
+
+
+    <section class="panel b-blue" id="1">
+        <article class="panel__wrapper">
+            <div class="panel__content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="home-content">
+
+                                <form class="login100-form validate-form">
+                                    <span class="login100-form-logo">
+                                        <i class="zmdi zmdi-accounts"></i>
+                                    </span>
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "input100", placeholder = "Usuario" } })
+                                        <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                                    </div>
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                                        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "input100", placeholder = "Senha" } })
+                                        <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                                    </div>
+
+                                    <div class="contact100-form-checkbox">
+                                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                                        <label class="label-checkbox100" for="ckb1">
+                                            Lembrar
+                                        </label>
+                                    </div>
+
+
+
+                                    <div class="container-login100-form-btn">
+                                        <button class="login100-form-btn" type="submit" formmethod="post">
+                                            Entrar
+                                        </button>
+                                    </div>
+
+
+
+
+
+
+                                    <br />
+                                    <br />
+                                    <label class="text-white white text-left">
+                                        <a class="text-white" href="NovaSenha">
+                                            Esqueceu sua senha?
+                                        </a>
+
+                                    </label>
+                                    <br />
+                                    <br />
+                                    <h3 style="white-space:nowrap">
+                                        <label class="text-white white text-center">
+                                            Ainda não possui uma conta? <a class="login100-form-btn" href="~/Login/Novo">
+                                                Crie uma agora!
+                                            </a>
+
+                                        </label>
+                                    </h3>
+
+                                    <h1 style="visibility: hidden"> -------------------------------------</h1>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="text-white white text-left">
+                        <a class="text-white" href="/Home/Index">
+                            Voltar
+                        </a>
+
+                    </label>
+                </div>
+            </div>
+
+            
+        </article>
+    </section>
+}
+
+
+<div id="dropDownSelect1"></div>
+
+
+
+
+
+
+
+

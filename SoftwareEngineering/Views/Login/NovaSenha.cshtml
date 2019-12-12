@@ -1,0 +1,66 @@
+﻿@model SoftwareEngineering.Models.Usuario
+
+@{
+    ViewBag.Title = "NovaSenha";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <section class="panel b-blue" id="1">
+        <article class="panel__wrapper">
+            <div class="panel__content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="home-content">
+
+                                <form class="login100-form validate-form">
+                                    <span class="login100-form-logo">
+                                        <i class="zmdi zmdi-account-box-mail"></i>
+                                    </span>
+
+                                    <br />
+                                    <span class="login100-form-title">
+                                        Enviaremos por e-mail instruções para você redefinir sua senha
+                                    </span>
+                                    <br />
+                                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input100", placeholder = "Informe seu e-mail" } })
+                                        <span class="focus-input100" data-placeholder="&#x40;"></span>
+                                    </div>
+
+
+
+
+                                    <div class="container-login100-form-btn">
+                                        <button class="login100-form-btn" type="submit">
+                                            Enviar
+                                        </button>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <label class="text-white white text-left">
+                                        <a class="text-white" href="Entrar">
+                                            Voltar
+                                        </a>
+
+                                    </label>
+                                    <br />
+                                    <br />
+                                    
+
+                                    <h1 style="visibility: hidden"> -------------------------------------</h1>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+}

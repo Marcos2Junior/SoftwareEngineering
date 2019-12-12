@@ -1,0 +1,168 @@
+﻿@model SoftwareEngineering.Models.Sala
+@using SoftwareEngineering.Business;
+@{
+    ViewBag.Title = "NovaSala";
+
+    try
+    {
+        if (Model.Nome != null)
+        {
+            <script>
+        window.location.href = "/Principal/Home?idSala=@Model.Id.ToString()";
+            </script>
+        }
+    }
+    catch (Exception)
+    {
+        <script>
+            Alert("Sua sessão expirou!");
+            window.location.href = "/Login/Entrar/";
+        </script>
+    }
+
+}
+
+
+@using (Html.BeginForm("NovaSala", "Principal", null, FormMethod.Post, new
+{
+    enctype = "multipart/form-data"
+}))
+{ 
+    @Html.AntiForgeryToken()
+    <section class="panel b-blue" id="1">
+        <article class="panel__wrapper">
+            <div class="panel__content">
+                <div class="container" style="margin-top:700px">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="home-content">
+
+                                <form class="login100-form validate-form">
+                                    <span class="login100-form-logo">
+                                        <i class="zmdi zmdi-accounts-list-alt"></i>
+                                    </span>
+                                    <br /><br />
+                                    <label class="text-xl-center login100-form-title">Criar nova Sala</label>
+                                    <br /><br />
+
+
+                                          <div class="form-horizontal">
+
+                                              @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                              <div class="wrap-input100 validate-input" data-validate="Enter username">
+
+                                                  @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "input100", placeholder = "Nome da sala" } })
+                                                  <span class="focus-input100" data-placeholder="&#xf207;"></span>
+
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger input100" })
+
+
+
+                                              <div class="wrap-input100 validate-input" data-validate="Enter password">
+                                                  @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "input100", placeholder = "Senha" } })
+                                                  <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger input100" })
+
+
+
+
+                                              <div class="wrap-input100 validate-input" data-validate="Enter qntJogadores">
+                                                  @Html.EditorFor(model => model.QntJogadores, new { htmlAttributes = new { @class = "input100", placeholder = "Quantidade de jogadores" } })
+                                                  <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.QntJogadores, "", new { @class = "text-danger input100" })
+
+
+
+                                              <div class="wrap-input100 validate-input" data-validate="Enter cidade">
+                                                  @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "input100", placeholder = "Cidade" } })
+                                                  <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.Local, "", new { @class = "text-danger input100" })
+
+
+
+                                              <div class="wrap-input100 validate-input" data-validate="Enter data">
+                                                  @Html.EditorFor(model => model.DataJogo, new { htmlAttributes = new { @class = "input100", placeholder = "Data e horário", data_tipo = "data" } })
+                                                  <span class="focus-input100" data-placeholder="&#xf191;"></span>
+
+                                              </div>
+                                              @Html.ValidationMessageFor(model => model.DataJogo, "", new { @class = "text-danger input100" })
+
+
+
+                                              @{
+                                                  List<SelectListItem> listItems = new List<SelectListItem>();
+                                                  listItems.Add(new SelectListItem
+                                                  {
+                                                      Text = "Jogos Onlines",
+                                                      Value = "online",
+
+                                                  });
+                                                  listItems.Add(new SelectListItem
+                                                  {
+                                                      Text = "Jogos Não Online",
+                                                      Value = "Nonline",
+
+                                                  });
+
+                                              }
+
+                                              @Html.DropDownListFor(model => model.Categoria, listItems, "Selecione a Categoria", new { @class = "input100 center-block", style = " color:black;" })
+                                              <br /><br /><br />
+                                                          <div class="border-white">
+                                                              <textarea class="center-block" maxlength="50" id="Descricao" name="Descricao" placeholder="Digite a descrição da sala"  style="background-color:lightslategray; font-size: 15px; width: 900pt; height: 150px; padding:15px; border-radius:25px;"></textarea>
+                                                          </div>
+                                              
+
+                                              <br /><br />
+
+                                                    <div class="wrap-input100 validate-input" data-validate="Enter image">
+                                                        <input type="file" name="upload"/>
+
+                                                    </div>
+
+                                              <div class="container-login100-form-btn">
+                                                  <button class="login100-form-btn" type="submit">
+                                                      Cadastrar Sala
+                                                  </button>
+                                              </div>
+                                              <br />
+                                              <label class="text-white white text-left">
+                                                  <a class="text-white" href="/Principal/Index/">
+                                                      Voltar
+                                                  </a>
+
+                                              </label>
+                                              <h2 style="visibility: hidden"> --------------------------------------------------</h2>
+                                          </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+}
+
+<script>
+    $(function () {
+        $("input[data-tipo=''cpf'']").mask("000.000.000-00");
+        $("input[data-tipo='data']").mask("00/00/0000 00:00");
+        $("input[data-tipo=''moeda'']").mask("000.000.000,00", { reverse: true });
+    });
+</script>
+
+
+
+
+
+

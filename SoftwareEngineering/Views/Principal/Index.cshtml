@@ -1,0 +1,228 @@
+﻿@model IEnumerable<SoftwareEngineering.Models.Sala>
+@using SoftwareEngineering.Business;
+@using SoftwareEngineering.Models
+
+
+@{
+    ViewBag.Title = "Principal";
+}
+@using (Html.BeginForm("Principal", "Index", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    try
+    {
+        object i;
+        if (Model.Count() > 3 && Model.Count() < 7)
+        {
+            i = "420px";
+        }
+        else if (Model.Count() < 4)
+        {
+            i = "1px";
+        }
+        else
+        {
+            i = "850px";
+        }
+        <h1 style="margin-bottom:@i"></h1>
+    }
+    catch (Exception)
+    {
+        try
+        {
+            DAL obj = new DAL();
+            List<Sala> salas = new List<Sala>();
+            object i;
+
+            if (ViewBag.Visualizar == "minhassalas")
+            {
+                salas = obj.RetornaMinhaSala(Session["usuario"].ToString());
+                if (salas.Count() > 3 && salas.Count() < 7)
+                {
+                    i = "420px";
+                }
+                else if (salas.Count() < 4)
+                {
+                    i = "1px";
+                }
+                else
+                {
+                    i = "850px";
+                }
+                <h1 style="margin-bottom:@i"></h1>
+
+
+
+
+
+                <h1 style="font-size:60px; text-align:center; color:white; background-color:rgba(0,0,0,0.7); padding:20px; border-radius:200px; margin-bottom:30px"> Minhas Salas </h1>
+            }
+            else
+            {
+                salas = obj.RetornaSalaQueParticipo(Session["usuario"].ToString());
+                if (salas.Count() > 3 && salas.Count() < 7)
+                {
+                    i = "400px";
+                }
+                else if (salas.Count() < 4)
+                {
+                    i = "1px";
+                }
+                else
+                {
+                    i = "850px";
+                }
+                <h1 style="margin-bottom:@i"></h1>
+
+
+                <h1 style="font-size:60px; text-align:center; color:white; background-color:rgba(0,0,0,0.7); padding:20px; border-radius:200px; margin-bottom:30px"> Salas Participantes </h1>
+            }
+
+
+
+            foreach (var item in salas)
+            {
+
+                <a href="/Principal/Home?idSala=@item.Id">
+
+                    <div class="col-4 float-left panel-Sala text-center " style="color:white;">
+
+                        <img src="~/images/@item.Image" alt="" height="120" width="120" style="border-radius:50%; margin-top:2px">
+
+                        <div style="font-size: 30px; text-align:center; margin-top:2px">
+                            <bold> @Html.DisplayFor(modelItem => item.Nome) </bold>
+                        </div>
+
+                        <br />
+                        <div style="font-size: 20px">
+                            @Html.DisplayFor(modelItem => item.Descricao)
+                        </div>
+
+                        <div style="font-size: 20px; white-space: nowrap;">
+                            Data: @item.DataJogo.ToShortDateString()
+
+                        </div>
+                        <div style="font-size: 20px; white-space: nowrap;">
+                            Local:
+                            @Html.DisplayFor(modelItem => item.Local)
+                        </div>
+                        <div style="font-size: 20px; white-space: nowrap;">
+                            Criado por:
+                            @Html.DisplayFor(modelItem => item.Usuario)
+                        </div>
+                        <br />
+                    </div>
+                </a>
+            }
+        }
+        catch (Exception)
+        {
+            <script>
+                alert("Sua sessão expirou!");
+                window.location.href = "/Login/Entrar/";
+            </script>
+        }
+    }
+    catch { }
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="~/principal/Index" style="font-size:30px;">Joga Junto</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/principal/Index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/principal/Perfil?usuario=@Session["usuario"].ToString()">Meu Perfil</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Salas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="~/principal/Index?visualizar=minhassalas">Minhas Salas</a>
+                        <a class="dropdown-item" href="~/principal/Index?visualizar=salasparticipantes">Salas participantes</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/Principal/NovaSala/">Criar nova sala</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="/Login/Entrar/">Sair</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" id="enter" placeholder="Enter para buscar sala" />
+            </form>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container text-center my-3">
+
+        @{
+
+            try
+            {
+                if (Model.ToString().Length > 0)
+                {
+                    <h1 style="font-size:60px; text-align:center; color:white; background-color:rgba(0,0,0,0.7); padding:20px; border-radius:200px; margin-bottom:30px">Salas Destaques</h1>
+                    foreach (var item in Model)
+                    {
+
+                        <a href="/Principal/Home?idSala=@item.Id">
+                            <div class="col-4 float-left panel-Sala " style="color:white;">
+
+                                <img src="~/images/@item.Image" alt="" height="120" width="120" style="border-radius:50%; margin-top:2px">
+
+                                <div style="font-size: 30px; text-align:center; margin-top:2px">
+                                    <bold> @Html.DisplayFor(modelItem => item.Nome)</bold>
+                                </div>
+
+                                <br />
+                                <div style="font-size: 20px">
+                                    @Html.DisplayFor(modelItem => item.Descricao)
+                                </div>
+
+                                <div style="font-size: 20px; white-space: nowrap;">
+                                    Data: @item.DataJogo.ToShortDateString()
+
+                                </div>
+                                <div style="font-size: 20px; white-space: nowrap;">
+                                    Local:
+                                    @Html.DisplayFor(modelItem => item.Local)
+                                </div>
+                                <div style="font-size: 20px; white-space: nowrap;">
+                                    Criado por:
+                                    @Html.DisplayFor(modelItem => item.Usuario)
+                                </div>
+                                <br />
+
+                            </div>
+                        </a>
+
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
+    </div>
+
+
+
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
